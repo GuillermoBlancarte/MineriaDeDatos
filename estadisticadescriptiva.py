@@ -1,10 +1,14 @@
 #Estadistica Descriptiva
 
 import pandas as pd
+import matplotlib.pyplot as plt 
 
 df = pd.read_csv('csv/torneos_oficiales.csv')
 goles = pd.read_csv('csv/goles.csv')
 
+df.drop(['Unnamed: 0'], axis=1, inplace=True)
+df.drop(['Neutral'], axis = 1, inplace=True)
+goles.drop(['Unnamed: 0'], axis=1, inplace=True)
 
 print(df.describe())
 
@@ -72,3 +76,20 @@ print("")
 autogoles = inner[inner['Autogol'] == True]
 max_equipo_autogoles = autogoles['Equipo'].value_counts()
 print("Las tres selecciones con mas goles en propia puerta en torneos oficiales\n", max_equipo_autogoles.head(3))
+
+# Histograma de la cantidad de goles de los equipos locales
+plt.figure(figsize=(10, 6))
+plt.hist(df['Goles_Local'], bins=10, color='blue', alpha=0.7)
+plt.xlabel('Cantidad de Goles (Local)')
+plt.ylabel('Frecuencia')
+plt.title('Histograma de Goles (Local)')
+plt.show()
+
+# Gráfico de barras de las selecciones con más autogoles en torneos oficiales
+plt.figure(figsize=(10, 6))
+max_equipo_autogoles.head(3).plot(kind='bar', color='red')
+plt.xlabel('Selección')
+plt.ylabel('Cantidad de Autogoles')
+plt.title('Las tres selecciones con más autogoles en torneos oficiales')
+plt.xticks(rotation=45)
+plt.show()
